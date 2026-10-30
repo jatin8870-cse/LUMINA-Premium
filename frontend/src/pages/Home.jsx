@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from 'react-router-dom';
 import { ArrowDownRight, ArrowUpRight, Leaf, Droplets, Sparkles } from 'lucide-react';
 

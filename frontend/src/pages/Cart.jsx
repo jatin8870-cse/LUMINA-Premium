@@ -1,3 +1,4 @@
+import React from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Minus, Plus, Trash2 } from 'lucide-react';
 import { useStore } from '../context/StoreContext';

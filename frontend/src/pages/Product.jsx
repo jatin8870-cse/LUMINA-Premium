@@ -1,3 +1,4 @@
+import React from "react";
 import { useParams, Link } from 'react-router-dom';
 import { useState } from 'react';
 import { ArrowLeft, Minus, Plus, ShoppingBag, Truck } from 'lucide-react';

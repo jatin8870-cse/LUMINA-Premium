@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from 'react-router-dom';
 import { ArrowUpRight, Plus } from 'lucide-react';
 import { useStore } from '../context/StoreContext';

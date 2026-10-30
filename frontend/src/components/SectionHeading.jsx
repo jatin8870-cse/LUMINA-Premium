@@ -1,3 +1,4 @@
+import React from "react";
 export default function SectionHeading({ kicker, title, copy }) {
     return <div className="section-heading">
         <p className="eyebrow">{kicker}</p>
