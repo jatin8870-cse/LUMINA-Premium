@@ -15,6 +15,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Admin from "./pages/Admin";
 import Success from "./pages/Success";
+import Login from "./pages/Login";
 
 function Layout({ children }) {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route path="/success" element={
           <Layout><Success /></Layout>
         } />
+        <Route path="/login" element={<Layout><Login /></Layout>} />
 
         <Route path="/admin" element={<Admin />} />
       </Routes>

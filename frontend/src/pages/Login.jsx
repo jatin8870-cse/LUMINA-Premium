@@ -1,0 +1,8 @@
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+export default function Login() {
+  const { login, register } = useAuth(); const navigate = useNavigate(); const [mode, setMode] = useState('login'); const [form, setForm] = useState({ name: '', email: '', password: '' }); const [error, setError] = useState('');
+  const submit = async e => { e.preventDefault(); try { await (mode === 'login' ? login(form) : register(form)); navigate('/'); } catch (err) { setError(err.response?.data?.message || 'Could not authenticate'); } };
+  return <main className="page-shell"><div className="page-title"><p className="eyebrow">WELCOME TO LUMINA</p><h1>{mode === 'login' ? 'Come back to your glow.' : 'Begin your ritual.'}</h1></div><form className="checkout-form" onSubmit={submit}>{mode === 'register' && <input placeholder="Name" required value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />}<input type="email" placeholder="Email" required value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} /><input type="password" placeholder="Password" required minLength="6" value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} />{error && <p className="form-error">{error}</p>}<button className="button button-dark" type="submit">{mode === 'login' ? 'Sign in' : 'Create account'}</button><button type="button" className="back-link" onClick={() => setMode(mode === 'login' ? 'register' : 'login')}>{mode === 'login' ? 'Create an account' : 'Already have an account?'}</button><Link to="/" className="back-link">Back to home</Link></form></main>;
+}
