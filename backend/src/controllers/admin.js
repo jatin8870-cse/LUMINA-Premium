@@ -1,0 +1,9 @@
+const User = require('../models/User');
+const Product = require('../models/Product');
+const Order = require('../models/Order');
+const Coupon = require('../models/Coupon');
+const Banner = require('../models/Banner');
+exports.stats = async (req, res, next) => { try { const [orders, users, lowStock, sales] = await Promise.all([Order.countDocuments(), User.countDocuments(), Product.find({ stock: { $lte: 5 }, isActive: true }), Order.aggregate([{ $match: { payment: { $ne: null }, status: { $nin: ['Cancelled', 'Refunded'] } } }, { $group: { _id: null, revenue: { $sum: '$total' } } }])]); res.json({ success: true, data: { revenue: sales[0]?.revenue || 0, orders, users, lowStock, salesLast7Days: [], salesLast30Days: [] } }); } catch (e) { next(e); } };
+exports.users = async (req, res, next) => { try { res.json({ success: true, data: await User.find().select('-password') }); } catch (e) { next(e); } };
+function crud(Model) { return { list: async (req, res, next) => { try { res.json({ success: true, data: await Model.find().sort({ createdAt: -1 }) }); } catch (e) { next(e); } }, create: async (req, res, next) => { try { res.status(201).json({ success: true, data: await Model.create(req.body) }); } catch (e) { next(e); } }, update: async (req, res, next) => { try { res.json({ success: true, data: await Model.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true }) }); } catch (e) { next(e); } }, remove: async (req, res, next) => { try { await Model.findByIdAndDelete(req.params.id); res.json({ success: true, message: 'Deleted' }); } catch (e) { next(e); } } }; }
+exports.coupons = crud(Coupon); exports.banners = crud(Banner); exports.products = { list: async (req, res, next) => { try { res.json({ success: true, data: await Product.find().sort({ createdAt: -1 }) }); } catch (e) { next(e); } }, create: require('./products').create, update: require('./products').update, remove: require('./products').remove };

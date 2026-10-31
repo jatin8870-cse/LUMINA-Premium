@@ -1,0 +1,12 @@
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const Product = require('../models/Product');
+const token = id => jwt.sign({ id }, process.env.JWT_SECRET || 'lumina-local-development-secret', { expiresIn: '7d' });
+const result = user => ({ _id: user._id, name: user.name, email: user.email, phone: user.phone, role: user.role, addresses: user.addresses, wishlist: user.wishlist });
+exports.register = async (req, res, next) => { try { const user = await User.create(req.body); res.status(201).json({ success: true, data: { user: result(user), token: token(user._id) } }); } catch (e) { next(e); } };
+exports.login = async (req, res, next) => { try { const user = await User.findOne({ email: req.body.email }).select('+password'); if (!user || !(await user.comparePassword(req.body.password))) return res.status(401).json({ success: false, message: 'Invalid email or password' }); res.json({ success: true, data: { user: result(user), token: token(user._id) } }); } catch (e) { next(e); } };
+exports.me = async (req, res) => res.json({ success: true, data: result(req.user) });
+exports.profile = async (req, res, next) => { try { Object.assign(req.user, { name: req.body.name ?? req.user.name, phone: req.body.phone ?? req.user.phone }); await req.user.save(); res.json({ success: true, data: result(req.user) }); } catch (e) { next(e); } };
+exports.address = async (req, res, next) => { try { req.user.addresses.push(req.body); await req.user.save(); res.status(201).json({ success: true, data: req.user.addresses }); } catch (e) { next(e); } };
+exports.wishlist = async (req, res, next) => { try { const id = req.params.productId; if (req.method === 'POST' && !req.user.wishlist.some(x => String(x) === id)) req.user.wishlist.push(id); if (req.method === 'DELETE') req.user.wishlist = req.user.wishlist.filter(x => String(x) !== id); await req.user.save(); await req.user.populate('wishlist'); res.json({ success: true, data: req.user.wishlist }); } catch (e) { next(e); } };
+exports.getWishlist = async (req, res, next) => { try { await req.user.populate('wishlist'); res.json({ success: true, data: req.user.wishlist }); } catch (e) { next(e); } };
