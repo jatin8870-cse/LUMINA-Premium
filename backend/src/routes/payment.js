@@ -1,0 +1,1 @@
+const router = require('express').Router(); const c = require('../controllers/orders'); const protect = require('../middleware/auth'); router.post('/demo-pay', protect, c.demoPay); module.exports = router;

@@ -1,0 +1,1 @@
+const router = require('express').Router(); const c = require('../controllers/products'); router.get('/', c.list); router.get('/bestsellers', c.bestsellers); router.get('/:idOrSlug', c.one); module.exports = router;

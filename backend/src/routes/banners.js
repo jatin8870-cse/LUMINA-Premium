@@ -1,0 +1,1 @@
+const router = require('express').Router(); const Banner = require('../models/Banner'); router.get('/', async (req, res, next) => { try { res.json({ success: true, data: await Banner.find({ isActive: true }).sort({ order: 1 }) }); } catch (e) { next(e); } }); module.exports = router;

@@ -1,0 +1,5 @@
+const router = require('express').Router(); const protect = require('../middleware/auth'); const admin = require('../middleware/admin'); const upload = require('../middleware/upload'); const o = require('../controllers/orders'); const a = require('../controllers/admin'); router.use(protect, admin);
+router.get('/stats', a.stats); router.get('/users', a.users); router.get('/orders', o.adminOrders); router.put('/orders/:id/status', o.status); router.post('/orders/:id/refund', o.refund);
+router.get('/products', a.products.list); router.post('/products', upload.array('images', 8), a.products.create); router.put('/products/:id', upload.array('images', 8), a.products.update); router.delete('/products/:id', a.products.remove);
+router.get('/coupons', a.coupons.list); router.post('/coupons', a.coupons.create); router.put('/coupons/:id', a.coupons.update); router.delete('/coupons/:id', a.coupons.remove);
+router.get('/banners', a.banners.list); router.post('/banners', a.banners.create); router.put('/banners/:id', a.banners.update); router.delete('/banners/:id', a.banners.remove); module.exports = router;

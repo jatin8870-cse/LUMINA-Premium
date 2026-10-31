@@ -1,0 +1,1 @@
+const router = require('express').Router(); const c = require('../controllers/orders'); const protect = require('../middleware/auth'); router.use(protect); router.post('/', c.create); router.get('/my', c.mine); router.get('/:id/invoice', c.invoice); router.put('/:id/cancel', c.cancel); router.get('/:id', c.one); module.exports = router;
