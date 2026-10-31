@@ -1,0 +1,65 @@
+.product-add-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.product-add-action > button {
+    transition: transform 180ms ease, background-color 180ms ease, color 180ms ease;
+}
+
+.product-add-action > button:active {
+    transform: scale(0.88);
+}
+
+.product-add-action-added > button {
+    color: #f6f3ed;
+    background: #6d8061;
+    animation: product-added-pop 360ms ease;
+}
+
+.view-bag-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #6d8061;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    animation: product-bag-reveal 260ms ease both;
+}
+
+.product-add-spin {
+    animation: product-add-spin 700ms linear infinite;
+}
+
+.product-detail-added {
+    background: #6d8061;
+    animation: product-added-pop 360ms ease;
+}
+
+@keyframes product-added-pop {
+    0% { transform: scale(0.8); }
+    70% { transform: scale(1.12); }
+    100% { transform: scale(1); }
+}
+
+@keyframes product-bag-reveal {
+    from { opacity: 0; transform: translateX(-6px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes product-add-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .product-add-action > button,
+    .product-add-action-added > button,
+    .view-bag-action,
+    .product-add-spin {
+        animation: none;
+        transition: none;
+    }
+}

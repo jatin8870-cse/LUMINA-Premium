@@ -3,9 +3,11 @@ import { useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import { Menu, X, ShoppingBag, ArrowUpRight } from 'lucide-react';
 import { useStore } from '../context/StoreContext';
+import { useAuth } from '../context/AuthContext';
 export default function Navbar() {
     const [open, setOpen] = useState(false);
     const { cart } = useStore();
+    const { user, logout } = useAuth();
     const count = cart.reduce((n, x) => n + x.qty, 0);
     const links = [['Shop', '/shop'],
     ['Our philosophy', '/#story'],
@@ -13,7 +15,7 @@ export default function Navbar() {
     return <>
         <div className="announcement">A little care goes a long way
             <span>✳</span>
-            Complimentary shipping over ₹1,499
+            Complimentary shipping over ₹999
         </div>
         <header className="navbar">
             <Link to="/" className="brand" onClick={() => setOpen(false)}>
@@ -28,6 +30,7 @@ export default function Navbar() {
             <div className="nav-actions">
                 <Link to="/admin" className="admin-link">Studio <ArrowUpRight size={14} />
                 </Link>
+                {user ? <button className="admin-link" onClick={logout}>Sign out</button> : <Link to="/login" className="admin-link">Sign in</Link>}
                 <Link to="/cart" className="bag-link">
                     <ShoppingBag size={19} />
                     <span>Bag</span>

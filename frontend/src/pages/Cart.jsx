@@ -6,7 +6,7 @@ export default function Cart() {
     const { cart, updateQty, removeFromCart } = useStore();
     const navigate = useNavigate();
     const subtotal = cart.reduce((s, x) => s + x.product.price * x.qty, 0);
-    const shipping = subtotal >= 1499 || subtotal === 0 ? 0 : 99;
+    const shipping = subtotal >= 999 || subtotal === 0 ? 0 : 49;
     return <main className="page-shell">
         <div className="page-title">
             <p className="eyebrow">YOUR LUMINA EDIT</p>
@@ -42,7 +42,7 @@ export default function Cart() {
                 <h2>Order summary</h2><div><span>Subtotal</span><b>₹{subtotal.toLocaleString('en-IN')}</b></div>
                 <div><span>Shipping</span><b>{shipping === 0 ? 'Complimentary' : `₹${shipping}`}</b></div>
                 <div className="summary-total"><span>Total</span><strong>₹{(subtotal + shipping).toLocaleString('en-IN')}</strong></div>
-                <p className="shipping-hint">{subtotal >= 1499 ? 'You unlocked complimentary shipping ✳' : `Add ₹${(1499 - subtotal).toLocaleString('en-IN')} more for complimentary shipping.`}</p>
+                <p className="shipping-hint">{subtotal >= 999 ? 'You unlocked complimentary shipping ✳' : `Add ₹${(999 - subtotal).toLocaleString('en-IN')} more for complimentary shipping.`}</p>
                 <button className="button button-dark checkout-btn" onClick={() => navigate('/checkout')}>Continue to checkout
                     <ArrowRight size={16} /></button>
                 <p className="secure-note">Secure checkout · Thoughtful delivery</p>
